@@ -1,0 +1,4 @@
+file_paths:
+  model_en_vi: models/mbart50-en-vi/checkpoint-16000
+  model_vi_en: models/mbart50-vi-en/checkpoint-24500
+  model_en_vi_back: models/mbart50-en-vi-backtranslation/checkpoint-9000

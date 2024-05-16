@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation App</title>
+    <style>
+        /* CSS styles */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            padding: 8px;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .translated-text {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Translation App</h1>
+        <form action="/translate" method="post" id="translationForm">
+            <textarea name="text" rows="4" id="textInput" placeholder="Enter text to translate"></textarea><br>
+            <label for="model">Select Model:</label>
+            <select name="model" id="modelSelect">
+                <option value="en_vi">English to Vietnamese</option>
+                <option value="vi_en">Vietnamese to English</option>
+            </select><br>
+            <input type="submit" value="Translate">
+        </form>
+        <div class="translated-text" id="translatedTextDiv">
+            <h2>Translated Text ({{ model_name }}):</h2>
+            <p>{{ translated_text }}</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to store and retrieve text input and selected model from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the model select element
+            var modelSelect = document.getElementById('modelSelect');
+            // Get the text input element
+            var textInput = document.getElementById('textInput');
+
+            // Load the selected model from localStorage if available
+            var selectedModel = localStorage.getItem('selectedModel');
+            if (selectedModel) {
+                modelSelect.value = selectedModel;
+            }
+
+            // Load the text input from localStorage if available
+            var savedText = localStorage.getItem('savedText');
+            if (savedText) {
+                textInput.value = savedText;
+            }
+
+            // Save the selected model to localStorage when changed
+            modelSelect.addEventListener('change', function() {
+                localStorage.setItem('selectedModel', modelSelect.value);
+            });
+
+            // Save the text input to localStorage when changed
+            textInput.addEventListener('input', function() {
+                localStorage.setItem('savedText', textInput.value);
+            });
+
+            // Clear localStorage when form submitted (optional)
+            var translationForm = document.getElementById('translationForm');
+            translationForm.addEventListener('submit', function() {
+                localStorage.removeItem('selectedModel');
+                localStorage.removeItem('savedText');
+            });
+        });
+    </script>
+</body>
+</html>
